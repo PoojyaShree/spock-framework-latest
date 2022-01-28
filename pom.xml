@@ -97,6 +97,29 @@
             <version>1.2.7</version>
             <scope>test</scope>
         </dependency>
+             <!-- 'echo' pipeline step -->
+		<dependency>
+			<groupId>org.jenkins-ci.plugins.workflow</groupId>
+			<artifactId>workflow-basic-steps</artifactId>
+			<version>2.6</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- 'docker' global variable -->
+             <dependency>
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>docker-workflow</artifactId>
+			<version>1.14</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- 'stage' step -->
+		<dependency>
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>pipeline-stage-step</artifactId>
+			<version>2.3</version>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
     <build>
         <finalName>spock-example</finalName>
@@ -104,18 +127,39 @@
             <!-- compiles Groovy code. -->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!-- Invokes the addTestSources goal that adds Groovy tests source to the project's test sources -->
-                            <goal>addTestSources</goal>
-                            <!-- Invokes the testCompile goal that compiles our Spock tests -->
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
+		<artifactId>gmavenplus-plugin</artifactId>
+		<version>${groovy.gmaven.pluginVersion}</version>
+		<executions>
+		<execution>
+				<id>groovy</id>
+				<goals>
+					<goal>addSources</goal>
+					<goal>addTestSources</goal>
+					<goal>generateStubs</goal>
+					<goal>compile</goal>
+					<goal>generateTestStubs</goal>
+					<goal>compileTests</goal>
+					<goal>removeStubs</goal>
+					<goal>removeTestStubs</goal>
+					</goals>
+					<configuration>
+						<sources>
+							<source>
+								<directory>src/main/resources</directory>
+										<includes>
+											<include>**/*.groovy</include>
+										</includes>
+									</source>
+								</sources>
+								<testSources>
+									<testSource>
+										<directory>src/test/resources</directory>
+										<includes>
+											<include>**/*.groovy</include>
+										</includes>
+									</testSource>
+								</testSources>
+							</configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
